@@ -2,8 +2,7 @@ import scala.annotation.tailrec
 
 object ProjectTwo {
   def translateRna(s: String): String = {
-    val groups = s.grouped(3).toList
-    for (codon <- groups) yield if(CodonTable.getAminoAcid(codon) == "Stop") "" else CodonTable.getAminoAcid(codon)
+    for (codon <- s.grouped(3)) yield if(CodonTable.getAminoAcid(codon) == "Stop") "" else CodonTable.getAminoAcid(codon)
   }.mkString
 
   def countSources(rna: String): Int = {
@@ -18,4 +17,9 @@ object ProjectTwo {
 
     helper(rna, 1)
   }
+
+  def profile(ss: Seq[String]): Seq[Map[Char, Int]] = {
+    for (col <- ss.transpose) yield col.groupBy((c: Char) => c).map(el => (el._1, el._2.length))
+  }
+
 }
